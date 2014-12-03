@@ -14,16 +14,17 @@ class Func
 		return $result;
 	}
 
-	function getAllMember($tblnm)
+	function getAllMember($tblnm,$colNms)
 	{
 		$limRec = RECORD_SHOW;
 		global $wpdb;
-		$sql    = "SELECT * FROM $tblnm limit $limRec offset 1";
+		$liPar = implode(",",$colNms);
+		$sql    = "SELECT $liPar FROM $tblnm limit $limRec offset 1";
 		$result = $wpdb->get_results($sql);
 		return $result;
 	}
 	/* $pgLim is the variable that gets the value of the number that was clicked when the user click of one page number on the front-end */
-	function getAllMemberLim($pgLim,$tblnm)
+	function getAllMemberLim($pgLim,$tblnm,$colNms)
 	{
 		if($pgLim == 1)
 		{
@@ -36,7 +37,8 @@ class Func
 		}
 		$limRec = RECORD_SHOW;
 		global $wpdb;
-		$sql    = "SELECT * FROM $tblnm limit $limRec offset $pgLim";
+		$liPar = implode(",",$colNms);
+		$sql    = "SELECT $liPar FROM $tblnm limit $limRec offset $pgLim";
 		$result = $wpdb->get_results($sql);
 		return $result;
 	}

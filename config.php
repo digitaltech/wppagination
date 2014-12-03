@@ -1,4 +1,4 @@
-<?php
+<?php session_start();
 
 /*
 This is the configuration page of this plugin here. Here we set some of the configuration of the database

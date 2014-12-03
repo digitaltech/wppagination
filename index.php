@@ -21,7 +21,7 @@ class PGnate
 	}
 
 	 
-	function nextPages($pagenum,$tblnm)
+	function nextPages($pagenum,$tblnm,$pgUrl)
 	{ 
 		$totPgAtTm = PAGE_ONCE;  
 		/*$totPgAtTm is the variable that is used to set the total no of page numbers that should appear at a time to the users */
@@ -33,7 +33,7 @@ class PGnate
 			$_SESSION['liDat'] = '';
 			for ( $i = $presPgNo; $i <= $totPgAtTm; $i++ )
 			{
-			   $_SESSION['liDat'] = $_SESSION['liDat']."<li class = 'liStNone'><a href = ".site_url()."/life-member?pgno=$i".">".$i."</a></li>";
+			   $_SESSION['liDat'] = $_SESSION['liDat']."<li class = 'liStNone'><a href = ".site_url().$pgUrl."&pgno=".$i.">".$i."</a></li>";
 			}
 		}
 		else if ( ($presPgNo%$totPgAtTm) == 0 )
@@ -43,7 +43,7 @@ class PGnate
 			$_SESSION['liDat'] = '';
 			for ( $i = $countNew; $i <= $lstPnNo; $i++ )
 			{
-			   $_SESSION['liDat'] = $_SESSION['liDat']."<li class = 'liStNone'><a href = ".site_url()."/life-member?pgno=$i".">".$i."</a></li>";
+			   $_SESSION['liDat'] = $_SESSION['liDat']."<li class = 'liStNone'><a href = ".site_url().$pgUrl."&pgno=".$i.">".$i."</a></li>";
 			   
 			}
 		}
@@ -55,7 +55,7 @@ class PGnate
 			$_SESSION['liDat'] = '';
 			for ( $i = $countNew; $i < $lstPnNo2; $i++ )
 			{
-			   $_SESSION['liDat'] = $_SESSION['liDat']."<li class = 'liStNone'><a href = ".site_url()."/life-member?pgno=$i".">".$i."</a></li>";  
+			   $_SESSION['liDat'] = $_SESSION['liDat']."<li class = 'liStNone'><a href = ".site_url().$pgUrl."&pgno=".$i.">".$i."</a></li>";  
 			}
 		
 		}
@@ -73,13 +73,18 @@ class PGnate
 	/*
 	The below  block will execute only when the user loads the page for the first time without clicking on any page
 	*/
-	function firstPage($tblnm)
+	function firstPage($tblnm,$colNms,$pgUrl)
 	{
 		$totPgAtTm = PAGE_ONCE;
 		$funcCls = new Func();
-		$usrFulDat = $funcCls->getAllMember($tblnm);
+		$usrFulDat = $funcCls->getAllMember($tblnm,$colNms);
 		$tbData = '';
 		$cou = 1;
+		$echDats = '';
+		foreach($colNms as $colNm)
+		{
+			$echDats = $echDats.$echDat->$colNm; 
+		}
 		foreach ( $usrFulDat as $echDat )
 		{
 			$tbData2 = "<tr><td>".$echDat->membership_id."</td><td>".$echDat->firstname."</td><td>".$echDat->lastname."</td><td>".$echDat->spouse_firstname."</td></tr>";
@@ -87,7 +92,7 @@ class PGnate
 		}
 		for ( $cou = 1; $cou <= $totPgAtTm; $cou++)
 		{
-			$_SESSION['liDat'] = $_SESSION['liDat']."<li class = 'liStNone'><a href = ".site_url()."/life-member?pgno=$cou".">".$cou."</a></li>";
+			$_SESSION['liDat'] = $_SESSION['liDat']."<li class = 'liStNone'><a href = ".site_url().$pgUrl."&pgno=".$cou.">".$cou."</a></li>";
 			
 		}
 		return $tbData; 
